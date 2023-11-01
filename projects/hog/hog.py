@@ -170,6 +170,25 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    while (score0 < goal) and (score1 < goal):
+        if (who == 0):
+            play0dice = strategy0(score0, score1)
+            curscore = take_turn(play0dice, score1, dice)
+            score0 = curscore + score0
+            say = say(score0, score1)
+            if (extra_turn(score0, score1)):
+                continue
+            else:
+                who = other(who) 
+        else:
+            play1dice = strategy1(score1, score0)
+            curscore = take_turn(play1dice, score0, dice)
+            score1 = curscore + score1
+            say = say(score0, score1)
+            if (extra_turn(score1, score0)):
+                continue
+            else:
+                who = other(who) 
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
@@ -258,6 +277,21 @@ def announce_highest(who, last_score=0, running_high=0):
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    if (who == 0):
+        def say(score0 = 0, score1 = 0, last_score = last_score, running_high = running_high):
+            if (running_high < (score0 - last_score)):
+                running_high = score0 - last_score
+                print(running_high, 'point(s)! The most yet for Player', 0)
+            last_score = score0
+            return announce_highest(0, last_score, running_high)
+    else:
+        def say(score0 = 0, score1 = 0, last_score = last_score, running_high = running_high):
+            if (running_high < (score1 - last_score)):
+                running_high = score1 - last_score
+                print(running_high, 'point(s)! The most yet for Player', 1)
+            last_score = score1
+            return announce_highest(1, last_score, running_high)
+    return say           
     # END PROBLEM 7
 
 
