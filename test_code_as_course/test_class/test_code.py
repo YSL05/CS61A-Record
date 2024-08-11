@@ -14,3 +14,10 @@ class Account:
         else:
             self.balance = self.balance - amount
             return self.balance
+class CheckingAccount(Account):
+    """A bank account that charges for withdrawals"""
+
+    withdraw_charge = 1
+    interest = 0.01
+    def withdraw(self, amount):
+        return Account.withdraw(self, amount + self.withdraw_charge)
